@@ -32,10 +32,12 @@
 
 </template>
 <script>
+
   import { mapMutations, mapGetters, mapActions } from 'vuex'
   export default {
     data() {
       return {
+        userName: '',
         obj: {
           name: '',
           email: '',
@@ -43,9 +45,7 @@
         }
       }
     },
-   mounted() {
-     console.log(this.showGetters)
-   },
+   
     created() {
        this.initializeData()
     },
@@ -56,16 +56,13 @@
       }),
       addToStore() {
         this.addNewContact(this.obj)
+        this.obj = {name: '', email: '', message: ''}//without this default settings it shows error, that I try mutate state directly
       },
     },
     computed: {
       ...mapGetters({
         allContacts: 'contacts/allContacts',
       }),
-      showGetters () {
-        return this.allContacts
-      }
-
     },
 
   }

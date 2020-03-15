@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 let initialData = [//here should be initial data from database or API
   {
     id: 1,
@@ -30,15 +32,27 @@ const getters = {
 }
 
 const actions = {
-  async initializeData({ commit }) {
+  initializeData({ commit }) {
     commit('setData', initialData)
   },
   addNewContact({ commit, state }, newContact) {
-    console.log(newContact)
+
+    newContact.id = state.contacts.length +1;
+
     const savedData = [...state.contacts];
-    // console.log(savedData)
-    savedData.push(newContact)
-    console.log(savedData)
+
+    let noSameEmail = true;
+
+    savedData.forEach(function(elem) {
+      if (elem.email !== newContact.email) {
+        noSameEmail = true
+      } else {
+        noSameEmail = false
+      }
+    })
+    if (noSameEmail) {
+      savedData.push(newContact);
+    }
     commit('addContact', savedData)
   }
 }
